@@ -28,29 +28,39 @@ class CleaningIntervalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             }
 
             return self.async_create_entry(
-                title=user_input["Name"],
+                title=user_input["name"],
                 data=data,
             )
 
         schema = vol.Schema({
-            vol.Required("Name"): str,
+            vol.Required("name"): str,
             vol.Required(CONF_DEVICE_TYPE): selector({
                 "select": {
                     "options": [
-                        DEVICE_DRYER,
-                        DEVICE_DISHWASHER,
-                        DEVICE_WASHER,
+                        {
+                            "value": DEVICE_DRYER,
+                            "label": "Dryer",
+                        },
+                        {
+                            "value": DEVICE_DISHWASHER,
+                            "label": "Dishwasher",
+                        },
+                        {
+                            "value": DEVICE_WASHER,
+                            "label": "Washer",
+                        },
                     ]
                 }
             }),
             vol.Required(CONF_SENSOR): selector({
                 "entity": {
                     "domain": "binary_sensor",
-                    "device_class": "running"
+                    "device_class": "running",
                 }
-            })
-
             }),
         })
 
-        return self.async_show_form(step_id="user", data_schema=schema)
+        return self.async_show_form(
+            step_id="user",
+            data_schema=schema,
+        )
