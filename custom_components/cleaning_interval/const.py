@@ -5,7 +5,7 @@ CONF_INTERVALS = "Intervalle"
 CONF_SENSOR = "Status Sensor (in Betrieb/Außer Betrieb)"
 
 DEVICE_DRYER = "Trockner"
-DEVICE_DISHWASHER = "Geschirspüler"
+DEVICE_DISHWASHER = "Geschirrspüler"
 DEVICE_WASHER = "Waschmaschine"
 
 DEFAULT_INTERVALS = {
