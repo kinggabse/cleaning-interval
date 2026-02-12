@@ -33,7 +33,7 @@ class CleaningIntervalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             )
 
         schema = vol.Schema({
-            vol.Required("name"): str,
+            vol.Required("Name"): str,
             vol.Required(CONF_DEVICE_TYPE): selector({
                 "select": {
                     "options": [
@@ -44,7 +44,12 @@ class CleaningIntervalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 }
             }),
             vol.Required(CONF_SENSOR): selector({
-                "entity": {"domain": "binary_sensor"}
+                "entity": {
+                    "domain": "binary_sensor",
+                    "device_class": "running"
+                }
+            })
+
             }),
         })
 
