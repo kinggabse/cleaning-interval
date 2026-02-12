@@ -1,7 +1,7 @@
 {
   "domain": "cleaning_interval",
   "name": "Cleaning Interval Monitor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "config_flow": true,
   "documentation": "https://github.com/kinggabse/cleaning-interval",
   "issue_tracker": "https://github.com/kinggabse/cleaning-interval/issues",
