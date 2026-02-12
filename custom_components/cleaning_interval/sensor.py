@@ -20,7 +20,7 @@ class CleaningStatusSensor(CoordinatorEntity, SensorEntity):
         super().__init__(coordinator)
         self.key = key
         self._attr_unique_id = f"{coordinator.entry.entry_id}_{key}_status"
-        self._attr_name = f"{coordinator.entry.title} {key} Maschinenpflege Status"
+        self._attr_name = f"{coordinator.entry.title} {key} Status"
 
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, coordinator.entry.entry_id)},
