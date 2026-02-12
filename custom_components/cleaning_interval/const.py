@@ -9,11 +9,11 @@ DEVICE_DISHWASHER = "Geschirrspüler"
 DEVICE_WASHER = "Waschmaschine"
 
 DEFAULT_INTERVALS = {
-    DEVICE_DRYER: {"cleaning": 30},
-    DEVICE_DISHWASHER: {"cleaning": 30},
+    DEVICE_DRYER: {"Maschinenpflege": 30},
+    DEVICE_DISHWASHER: {"Maschinenpflege": 30},
     DEVICE_WASHER: {
-        "drum": 40,
-        "filter": 80,
+        "Trommelreinigung": 40,
+        "Filterreinigung": 80,
     },
 }
 
