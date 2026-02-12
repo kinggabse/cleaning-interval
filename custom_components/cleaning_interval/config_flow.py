@@ -18,6 +18,7 @@ class CleaningIntervalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
 
     async def async_step_user(self, user_input=None):
+        """Handle the initial step of the config flow."""
         if user_input is not None:
             device_type = user_input[CONF_DEVICE_TYPE]
 
@@ -33,22 +34,13 @@ class CleaningIntervalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             )
 
         schema = vol.Schema({
-            vol.Required("name"): str,
+            vol.Required("name", description={"suggested_value": ""}): str,
             vol.Required(CONF_DEVICE_TYPE): selector({
                 "select": {
                     "options": [
-                        {
-                            "value": DEVICE_DRYER,
-                            "label": "Dryer",
-                        },
-                        {
-                            "value": DEVICE_DISHWASHER,
-                            "label": "Dishwasher",
-                        },
-                        {
-                            "value": DEVICE_WASHER,
-                            "label": "Washer",
-                        },
+                        DEVICE_DRYER,
+                        DEVICE_DISHWASHER,
+                        DEVICE_WASHER,
                     ]
                 }
             }),
