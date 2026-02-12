@@ -28,7 +28,7 @@ class CleaningIntervalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             }
 
             return self.async_create_entry(
-                title=user_input["name"],
+                title=user_input["Name"],
                 data=data,
             )
 
