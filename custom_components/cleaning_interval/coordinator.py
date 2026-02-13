@@ -11,7 +11,6 @@ from .const import (
     CONF_DEVICE_TYPE,
     CONF_SENSOR,
     CONF_INTERVALS,
-    DEFAULT_INTERVALS,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -24,22 +23,38 @@ class CleaningCoordinator(DataUpdateCoordinator):
         self.hass = hass
         self.entry = entry
 
-        # Migrationssicherer Zugriff
-        self.device_type = entry.data.get(CONF_DEVICE_TYPE) or entry.data.get("Gerätetyp")
-        self.sensor_entity_id = entry.data.get(CONF_SENSOR) or entry.data.get(
-            "Status Sensor (in Betrieb/Außer Betrieb)"
-        )
+        self.device_type = entry.data.get(CONF_DEVICE_TYPE)
+        self.sensor_entity_id = entry.data.get(CONF_SENSOR)
 
-        self.intervals = (
+        # 🔥 WICHTIG: Kopie erzeugen
+        self.intervals = dict(
             entry.options.get(CONF_INTERVALS)
-            or entry.data.get(CONF_INTERVALS)
-            or entry.data.get("Intervalle")
-            or DEFAULT_INTERVALS[self.device_type]
+            or entry.data[CONF_INTERVALS]
         )
 
         self.counts = {key: 0 for key in self.intervals}
         self.store = Store(hass, 1, f"{DOMAIN}_{entry.entry_id}")
         self._remove_listener = None
+
+        # 🔥 Listener für Options-Änderungen
+        entry.add_update_listener(self._handle_entry_update)
+
+    async def _handle_entry_update(self, hass, entry):
+        """Wird aufgerufen wenn options geändert werden."""
+        _LOGGER.debug("ConfigEntry options updated")
+
+        self.entry = entry
+        self.intervals = dict(
+            entry.options.get(CONF_INTERVALS)
+            or entry.data[CONF_INTERVALS]
+        )
+
+        # Falls neue Keys hinzugefügt wurden
+        for key in self.intervals:
+            if key not in self.counts:
+                self.counts[key] = 0
+
+        self.async_set_updated_data(self.counts)
 
     async def async_load(self):
         data = await self.store.async_load()
@@ -66,7 +81,6 @@ class CleaningCoordinator(DataUpdateCoordinator):
         if not old_state or not new_state:
             return
 
-        # Zyklus zählt bei Programmende
         if old_state.state == STATE_ON and new_state.state != STATE_ON:
             self.hass.async_create_task(self.async_increment())
 
