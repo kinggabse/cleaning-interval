@@ -1,8 +1,9 @@
 DOMAIN = "cleaning_interval"
 
-CONF_DEVICE_TYPE = "Gerätetyp"
-CONF_INTERVALS = "Intervalle"
-CONF_SENSOR = "Status Sensor (in Betrieb/Außer Betrieb)"
+
+CONF_DEVICE_TYPE = "device_type"
+CONF_INTERVALS = "intervals"
+CONF_SENSOR = "cycle_sensor"
 
 DEVICE_DRYER = "Trockner"
 DEVICE_DISHWASHER = "Geschirrspüler"
@@ -16,6 +17,9 @@ DEFAULT_INTERVALS = {
         "Filterreinigung": 60,
     },
 }
+
+MANUFACTURER = "Cleaning Interval"
+MODEL = "Cleaning Monitor"
 
 ICONS = {
     DEVICE_WASHER: {
