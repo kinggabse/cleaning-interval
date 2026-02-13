@@ -24,8 +24,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
+    coordinator = hass.data[DOMAIN].pop(entry.entry_id)
+
+    if getattr(coordinator, "_remove_listener", None):
+        coordinator._remove_listener()
+
     await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
-    hass.data[DOMAIN].pop(entry.entry_id)
     return True
 
 
