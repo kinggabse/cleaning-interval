@@ -13,7 +13,7 @@ DEFAULT_INTERVALS = {
     DEVICE_DISHWASHER: {"Maschinenpflege": 30},
     DEVICE_WASHER: {
         "Trommelreinigung": 40,
-        "Filterreinigung": 80,
+        "Filterreinigung": 60,
     },
 }
 
