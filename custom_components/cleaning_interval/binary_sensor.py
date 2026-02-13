@@ -24,7 +24,7 @@ class CleaningProblemSensor(CoordinatorEntity, BinarySensorEntity):
         self.key = key
 
         self._attr_unique_id = f"{coordinator.entry.entry_id}_{key}_problem"
-        self._attr_name = key + " überfällig"
+        self._attr_name =  f"{coordinator.entry.title} {key} überfällig"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, coordinator.entry.entry_id)},
             name=coordinator.entry.title,
