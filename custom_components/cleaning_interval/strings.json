@@ -1,0 +1,42 @@
+{
+  "title": "Cleaning Interval Monitor",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Cleaning Interval Monitor",
+        "description": "Configure your appliance to monitor maintenance intervals.",
+        "data": {
+          "name": "Name",
+          "device_type": "Device type",
+          "cycle_sensor": "Cycle status sensor (running)"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Maintenance intervals",
+        "description": "Adjust the maintenance cycle intervals.",
+        "data": {
+          "Maschinenpflege": "Maintenance",
+          "Trommelreinigung": "Drum cleaning",
+          "Filterreinigung": "Filter cleaning"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "Maschinenpflege": {
+        "name": "Maintenance counter"
+      },
+      "Trommelreinigung": {
+        "name": "Drum cleaning counter"
+      },
+      "Filterreinigung": {
+        "name": "Filter cleaning counter"
+      }
+    }
+  }
+}
