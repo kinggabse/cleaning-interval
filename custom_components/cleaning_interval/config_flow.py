@@ -21,15 +21,13 @@ class CleaningIntervalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             device_type = user_input[CONF_DEVICE_TYPE]
 
-            data = {
-                CONF_DEVICE_TYPE: device_type,
-                CONF_SENSOR: user_input[CONF_SENSOR],
-                CONF_INTERVALS: DEFAULT_INTERVALS[device_type],
-            }
-
             return self.async_create_entry(
                 title=user_input["name"],
-                data=data,
+                data={
+                    CONF_DEVICE_TYPE: device_type,
+                    CONF_SENSOR: user_input[CONF_SENSOR],
+                    CONF_INTERVALS: DEFAULT_INTERVALS[device_type],
+                },
             )
 
         schema = vol.Schema({
@@ -51,10 +49,7 @@ class CleaningIntervalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             }),
         })
 
-        return self.async_show_form(
-            step_id="user",
-            data_schema=schema,
-        )
+        return self.async_show_form(step_id="user", data_schema=schema)
 
     @staticmethod
     def async_get_options_flow(config_entry):
@@ -62,6 +57,8 @@ class CleaningIntervalConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
 
 class CleaningIntervalOptionsFlow(config_entries.OptionsFlow):
+    """OptionsFlow für nachträgliche Anpassung der Wartungsintervalle"""
+
     def __init__(self, config_entry):
         self.config_entry = config_entry
 
@@ -73,31 +70,28 @@ class CleaningIntervalOptionsFlow(config_entries.OptionsFlow):
         )
 
         if user_input is not None:
-            return self.async_create_entry(
-                title="",
-                data={CONF_INTERVALS: user_input},
-            )
+            # Optionen nur speichern – Sensoren lesen automatisch die neuen Werte
+            await self.config_entry.async_set_options({CONF_INTERVALS: user_input})
+            return self.async_create_entry(title="", data=user_input)
 
+        # Formular für UI
         if device_type == DEVICE_WASHER:
             schema = vol.Schema({
                 vol.Required(
-                    "drum",
-                    default=current_intervals.get("drum", 40),
+                    "Trommelreinigung",
+                    default=current_intervals.get("Trommelreinigung", 40),
                 ): vol.All(int, vol.Range(min=1, max=500)),
                 vol.Required(
-                    "filter",
-                    default=current_intervals.get("filter", 60),
+                    "Filterreinigung",
+                    default=current_intervals.get("Filterreinigung", 60),
                 ): vol.All(int, vol.Range(min=1, max=500)),
             })
         else:
             schema = vol.Schema({
                 vol.Required(
-                    "maintenance",
-                    default=current_intervals.get("maintenance", 30),
+                    "Maschinenpflege",
+                    default=current_intervals.get("Maschinenpflege", 30),
                 ): vol.All(int, vol.Range(min=1, max=500)),
             })
 
-        return self.async_show_form(
-            step_id="init",
-            data_schema=schema,
-        )
+        return self.async_show_form(step_id="init", data_schema=schema)
