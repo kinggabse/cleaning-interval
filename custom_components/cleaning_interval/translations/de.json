@@ -1,0 +1,42 @@
+{
+  "title": "Cleaning Interval Monitor",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Cleaning Interval Monitor",
+        "description": "Konfiguriere dein Gerät zur Überwachung der Wartungsintervalle.",
+        "data": {
+          "name": "Name",
+          "device_type": "Gerätetyp",
+          "cycle_sensor": "Status-Sensor (läuft)"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Wartungsintervalle",
+        "description": "Hier kannst du die Wartungszyklen anpassen.",
+        "data": {
+          "Maschinenpflege": "Maschinenpflege",
+          "Trommelreinigung": "Trommelreinigung",
+          "Filterreinigung": "Filterreinigung"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "Maschinenpflege": {
+        "name": "Maschinenpflege Zähler"
+      },
+      "Trommelreinigung": {
+        "name": "Trommelreinigung Zähler"
+      },
+      "Filterreinigung": {
+        "name": "Filterreinigung Zähler"
+      }
+    }
+  }
+}
