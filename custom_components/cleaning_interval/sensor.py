@@ -31,17 +31,17 @@ async def async_setup_entry(
 class CleaningIntervalSensor(CoordinatorEntity, SensorEntity):
     """Zähler-Sensor für Wartungszyklen"""
 
-    _attr_has_entity_name = True
+
 
     def __init__(self, coordinator: CleaningCoordinator, entry: ConfigEntry, key: str):
         super().__init__(coordinator)
         self._key = key
         self._entry = entry
 
-        self._attr_unique_id = f"{entry.entry_id}_{key}"
+        self._attr_unique_id = f"{entry.entry_id}_{key}_counter"
         self._attr_native_unit_of_measurement = "cycles"
         self._attr_icon = "mdi:counter"
-        self._attr_name = key
+        self._attr_name = f"{coordinator.entry.title} {key} Zähler"
 
     @property
     def native_value(self):
@@ -65,7 +65,7 @@ class CleaningStatusSensor(CoordinatorEntity, SensorEntity):
         self._entry = entry
 
         self._attr_unique_id = f"{entry.entry_id}_{key}_status"
-        self._attr_name = f"{key} Status"
+        self._attr_name = f"{coordinator.entry.title} {key} Status"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, self._entry.entry_id)},
             name=self._entry.title,
