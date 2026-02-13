@@ -25,7 +25,12 @@ class CleaningCoordinator(DataUpdateCoordinator):
 
         self.device_type = entry.data[CONF_DEVICE_TYPE]
         self.sensor_entity_id = entry.data[CONF_SENSOR]
-        self.intervals = entry.data[CONF_INTERVALS]
+
+        self.intervals = (
+            entry.options.get(CONF_INTERVALS)
+            or entry.data.get(CONF_INTERVALS)
+            or DEFAULT_INTERVALS[self.device_type]
+        )
 
         self.counts = {key: 0 for key in self.intervals.keys()}
 
