@@ -22,7 +22,7 @@ class CleaningResetButton(CoordinatorEntity, ButtonEntity):
         self.key = key
 
         self._attr_unique_id = f"{coordinator.entry.entry_id}_{key}_reset"
-        self._attr_name = key + " durchgeführt"
+        self._attr_name = f"{coordinator.entry.title} {key} durchgeführt"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, coordinator.entry.entry_id)},
             name=coordinator.entry.title,
